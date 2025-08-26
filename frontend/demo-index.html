@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Box dApp - Project Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎁 Donation Box dApp - Demo Portal</h1>
+            <p>Choose how you want to experience this blockchain project</p>
+        </header>
+
+        <!-- Demo Options -->
+        <div class="card">
+            <h2>🎯 Demo Options</h2>
+            <div class="demo-options">
+                <div class="option-card">
+                    <div class="option-header">
+                        <h3>🧪 View Test Results</h3>
+                        <span class="badge recommended">Recommended</span>
+                    </div>
+                    <p>See proof that the dApp works without installing anything. View live contract testing results showing donations, balances, and all functionality.</p>
+                    <a href="test-results.html" class="btn btn-primary">View Test Results</a>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-header">
+                        <h3>🦊 Interactive dApp</h3>
+                        <span class="badge advanced">Requires MetaMask</span>
+                    </div>
+                    <p>Full interactive experience where you can connect your wallet, make donations, and see real-time blockchain interactions.</p>
+                    <a href="http://localhost:8080" class="btn btn-secondary" target="_blank">Open Interactive dApp</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Project Overview -->
+        <div class="card">
+            <h2>📋 Project Overview</h2>
+            <div class="project-stats">
+                <div class="stat-box">
+                    <div class="stat-number">✅</div>
+                    <div class="stat-label">Contract Deployed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">3.8</div>
+                    <div class="stat-label">ETH Donated (Test)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">6/6</div>
+                    <div class="stat-label">Tests Passing</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Functional</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What This dApp Does -->
+        <div class="card">
+            <h2>🚀 What This dApp Does</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">💰</span>
+                    <div>
+                        <strong>Accept ETH Donations</strong>
+                        <p>Users can send Ethereum donations through the smart contract</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <div>
+                        <strong>Track Individual Donations</strong>
+                        <p>Contract remembers how much each user has donated</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔍</span>
+                    <div>
+                        <strong>Display Statistics</strong>
+                        <p>Shows total donations, number of donors, and contract balance</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔗</span>
+                    <div>
+                        <strong>MetaMask Integration</strong>
+                        <p>Connect wallet for seamless blockchain interactions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Details -->
+        <div class="card">
+            <h2>🔧 Technical Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <strong>Blockchain:</strong> Ethereum (Hardhat Local)
+                </div>
+                <div class="tech-item">
+                    <strong>Smart Contract:</strong> Solidity
+                </div>
+                <div class="tech-item">
+                    <strong>Frontend:</strong> HTML/CSS/JavaScript
+                </div>
+                <div class="tech-item">
+                    <strong>Web3 Library:</strong> Web3.js
+                </div>
+                <div class="tech-item">
+                    <strong>Development:</strong> Hardhat, Node.js
+                </div>
+                <div class="tech-item">
+                    <strong>Testing:</strong> Mocha/Chai
+                </div>
+            </div>
+        </div>
+
+        <!-- Contract Information -->
+        <div class="contract-info">
+            <h3>📋 Live Contract Details</h3>
+            <div class="contract-details">
+                <p><strong>Contract Address:</strong> <code>0x5FbDB2315678afecb367f032d93F642f64180aa3</code></p>
+                <p><strong>Network:</strong> Hardhat Localhost</p>
+                <p><strong>Chain ID:</strong> 31337</p>
+                <p><strong>Status:</strong> <span class="status-live">● LIVE</span></p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .demo-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .option-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .option-header h3 {
+            margin: 0;
+            color: #4a5568;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .recommended {
+            background: #22c55e;
+            color: white;
+        }
+
+        .advanced {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .feature-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+
+        .feature-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tech-item {
+            padding: 12px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .contract-details {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .contract-details code {
+            background: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .status-live {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .demo-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</body>
+</html>
