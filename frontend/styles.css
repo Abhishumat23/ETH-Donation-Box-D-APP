@@ -302,3 +302,35 @@ header p {
 .mb-20 {
     margin-bottom: 20px;
 }
+
+/* Badge styles */
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge.recommended {
+    background: linear-gradient(45deg, #10b981, #059669);
+    color: white;
+}
+
+.badge.advanced {
+    background: linear-gradient(45deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.badge.new {
+    background: linear-gradient(45deg, #ec4899, #be185d);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}

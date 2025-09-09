@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Donation Box dApp - Milestones & Badges</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Enhanced styles for milestones and badges */
+        .milestone-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .milestone-progress {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            height: 20px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .milestone-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #090979);
+            border-radius: 20px;
+            transition: width 0.8s ease;
+        }
+        
+        .badge-display {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            margin: 5px;
+        }
+        
+        .badge-bronze { background: linear-gradient(45deg, #cd7f32, #ffd700); color: #000; }
+        .badge-silver { background: linear-gradient(45deg, #c0c0c0, #ffffff); color: #000; }
+        .badge-gold { background: linear-gradient(45deg, #ffd700, #ffed4e); color: #000; }
+        .badge-diamond { background: linear-gradient(45deg, #b9f2ff, #00d4ff); color: #000; }
+        .badge-none { background: #666; color: #fff; }
+        
+        .leaderboard {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .leaderboard-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .rank {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 15px;
+        }
+        
+        .donor-info {
+            flex: 1;
+        }
+        
+        .donor-address {
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .achievement-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+        }
+        
+        .achievement-notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏆 Enhanced Donation Box dApp</h1>
+            <p>Featuring Milestones, Badges & Leaderboard System</p>
+            <div id="connection-status" class="connection-status">Not Connected</div>
+        </header>
+
+        <!-- Milestone Progress -->
+        <div class="milestone-container">
+            <h3>🎯 Community Milestones</h3>
+            <div id="milestone-info">
+                <p>Progress towards next milestone: <span id="milestone-text">Loading...</span></p>
+                <div class="milestone-progress">
+                    <div id="milestone-bar" class="milestone-bar" style="width: 0%"></div>
+                </div>
+                <p><strong id="current-progress">0 ETH</strong> / <strong id="next-target">1 ETH</strong></p>
+            </div>
+        </div>
+
+        <!-- Your Badge Status -->
+        <div class="card">
+            <h3>🏅 Your Donor Status</h3>
+            <div id="user-badge-section">
+                <p>Your current badge: <span id="user-badge" class="badge-display badge-none">None</span></p>
+                <p>Your total donations: <strong id="user-donations">0 ETH</strong></p>
+                <div id="badge-requirements">
+                    <h4>Badge Requirements:</h4>
+                    <ul>
+                        <li>🥉 Bronze: 0.1 ETH</li>
+                        <li>🥈 Silver: 0.5 ETH</li>
+                        <li>🥇 Gold: 1 ETH</li>
+                        <li>💎 Diamond: 5 ETH</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donation Section -->
+        <div class="card">
+            <h3>💝 Make a Donation</h3>
+            <div class="donation-form">
+                <div class="input-group">
+                    <input type="number" id="donationAmount" placeholder="0.1" step="0.01" min="0.01">
+                    <span class="input-suffix">ETH</span>
+                </div>
+                <button id="donateBtn" class="btn btn-primary">Donate ETH</button>
+            </div>
+            
+            <div class="quick-amounts">
+                <button class="btn btn-small" onclick="setAmount(0.1)">0.1 ETH</button>
+                <button class="btn btn-small" onclick="setAmount(0.5)">0.5 ETH</button>
+                <button class="btn btn-small" onclick="setAmount(1)">1 ETH</button>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard">
+            <h3>🏆 Top Donors Leaderboard</h3>
+            <div id="leaderboard-content">
+                <p>Loading leaderboard...</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="card">
+            <h3>📊 Contract Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Total Donations</span>
+                    <span id="totalDonations" class="stat-value">0 ETH</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Number of Donors</span>
+                    <span id="donorCount" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Contract Balance</span>
+                    <span id="contractBalance" class="stat-value">0 ETH</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Milestones Reached</span>
+                    <span id="milestonesReached" class="stat-value">0/5</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="card">
+            <h3>📋 Recent Activity</h3>
+            <div id="transaction-history">
+                <p>No recent transactions</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Notification -->
+    <div id="achievement-notification" class="achievement-notification">
+        <strong>🎉 Achievement Unlocked!</strong>
+        <p id="achievement-text"></p>
+    </div>
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+    <script src="app-enhanced.js"></script>
+</body>
+</html>
