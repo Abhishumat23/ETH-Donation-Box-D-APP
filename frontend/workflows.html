@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Workflows - Blockchain Donation System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.3em;
+            color: #7f8c8d;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .workflows-grid {
+            display: block;
+            margin-top: 30px;
+        }
+
+        .workflow-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #3498db;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: none;
+        }
+
+        .workflow-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .workflow-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .workflow-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .workflow-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .workflow-diagram {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow: hidden;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 950px;
+            justify-content: center;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .flow-block {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 85px;
+            max-width: 100px;
+            min-height: 55px;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .flow-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
+        }
+
+        .flow-block.start {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .flow-block.process {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .flow-block.decision {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+            min-width: 110px;
+        }
+
+        .flow-block.end {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .flow-block.parallel {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            width: 75px;
+            min-height: 50px;
+        }
+
+        .block-title {
+            font-weight: bold;
+            font-size: 0.7em;
+            margin-bottom: 3px;
+        }
+
+        .block-description {
+            font-size: 0.6em;
+            opacity: 0.9;
+            line-height: 1.0;
+        }
+
+        .flow-arrow {
+            width: 0;
+            height: 0;
+            border-left: 12px solid #34495e;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            position: relative;
+        }
+
+        .flow-line {
+            height: 2px;
+            background: #34495e;
+            width: 20px;
+        }
+
+        .parallel-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            position: relative;
+        }
+
+        .parallel-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .branch-line {
+            width: 2px;
+            height: 15px;
+            background: #34495e;
+        }
+
+        .merge-point {
+            width: 8px;
+            height: 8px;
+            background: #34495e;
+            border-radius: 50%;
+        }
+
+        .sub-flow {
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px dashed #bdc3c7;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 0 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 200px;
+        }
+
+        .sub-flow-title {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-align: center;
+            font-size: 0.7em;
+        }
+
+        .workflow-summary {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .summary-title {
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(52, 152, 219, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .timeline {
+            background: #34495e;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px 0;
+            border-left: 3px solid #3498db;
+            padding-left: 20px;
+        }
+
+        .timeline-phase {
+            background: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 15px;
+            margin: 5px 0;
+            text-decoration: none;
+            color: #2c3e50;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .nav-item:hover {
+            background: #3498db;
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(44, 62, 80, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .back-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .workflows-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                display: none;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .workflow-tree {
+                font-size: 0.8em;
+                padding: 15px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Project Workflows</h1>
+            <p>Comprehensive workflow diagrams and process documentation for the Blockchain Donation System development lifecycle</p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Core Workflows</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Development Phases</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Process Steps</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Completion Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="workflows-grid">
+            <!-- Smart Contract Development Workflow -->
+            <div class="workflow-card" id="development">
+                <div class="workflow-header">
+                    <div class="workflow-icon">🏗️</div>
+                    <div class="workflow-title">Smart Contract Development Workflow</div>
+                </div>
+                
+                <div class="workflow-diagram">
+                    <div class="flow-container">
+                        <!-- Start -->
+                        <div class="flow-block start">
+                            <div class="block-title">🚀 Setup</div>
+                            <div class="block-description">Hardhat Init<br>Dependencies</div>
+                        </div>
+                        
+                        <div class="flow-arrow"></div>
+
+                        <!-- Development -->
+                        <div class="flow-block process">
+                            <div class="block-title">📝 Contract</div>
+                            <div class="block-description">Write Code<br>Functions</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Parallel Development -->
+                        <div class="parallel-container">
+                            <div class="merge-point"></div>
+                            <div class="branch-line"></div>
+                            <div class="parallel-row">
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🧪 Tests</div>
+                                    <div class="block-description">Unit Tests</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🎮 Features</div>
+                                    <div class="block-description">Badges</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">📊 Analytics</div>
+                                    <div class="block-description">Performance</div>
+                                </div>
+                            </div>
+                            <div class="branch-line"></div>
+                            <div class="merge-point"></div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Validation -->
+                        <div class="flow-block decision">
+                            <div class="block-title">⚠️ Validate</div>
+                            <div class="block-description">Compile<br>Check</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Enhancement -->
+                        <div class="sub-flow">
+                            <div class="sub-flow-title">🔄 Enhancement</div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div class="flow-block process" style="min-width: 90px;">
+                                    <div class="block-title">🏆 Add</div>
+                                    <div class="block-description">Features</div>
+                                </div>
+                                <div class="flow-line"></div>
+                                <div class="flow-block process" style="min-width: 90px;">
+                                    <div class="block-title">📋 Test</div>
+                                    <div class="block-description">Validate</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- End -->
+                        <div class="flow-block end">
+                            <div class="block-title">✅ Ready</div>
+                            <div class="block-description">Deploy Ready<br>Documented</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-summary">
+                    <div class="summary-title">🎯 Key Outcomes:</div>
+                    <ul>
+                        <li>Fully functional smart contract with gamification features</li>
+                        <li>Comprehensive test suite with 100% pass rate</li>
+                        <li>Gas-optimized code (65K-135K gas per transaction)</li>
+                        <li>Production-ready deployment artifacts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Deployment Workflow -->
+            <div class="workflow-card" id="deployment">
+                <div class="workflow-header">
+                    <div class="workflow-icon">🚀</div>
+                    <div class="workflow-title">Deployment Workflow</div>
+                </div>
+                
+                <div class="workflow-diagram">
+                    <div class="flow-container">
+                        <!-- Start Network -->
+                        <div class="flow-block start">
+                            <div class="block-title">🌐 Network</div>
+                            <div class="block-description">Hardhat Node<br>Test Accounts</div>
+                        </div>
+                        
+                        <div class="flow-arrow"></div>
+
+                        <!-- Deploy -->
+                        <div class="flow-block process">
+                            <div class="block-title">📦 Deploy</div>
+                            <div class="block-description">Contract<br>Address</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Configuration -->
+                        <div class="parallel-container">
+                            <div class="merge-point"></div>
+                            <div class="branch-line"></div>
+                            <div class="parallel-row">
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🎯 Milestones</div>
+                                    <div class="block-description">Thresholds</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🏅 Badges</div>
+                                    <div class="block-description">Tiers</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">👑 Owner</div>
+                                    <div class="block-description">Permissions</div>
+                                </div>
+                            </div>
+                            <div class="branch-line"></div>
+                            <div class="merge-point"></div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Testing -->
+                        <div class="flow-block decision">
+                            <div class="block-title">🧪 Test</div>
+                            <div class="block-description">Integration<br>Verify</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Frontend Integration -->
+                        <div class="sub-flow">
+                            <div class="sub-flow-title">🎨 Frontend</div>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <div class="flow-block process" style="min-width: 60px;">
+                                    <div class="block-title">🔗 Web3</div>
+                                    <div class="block-description">Connect</div>
+                                </div>
+                                <div class="flow-line"></div>
+                                <div class="flow-block process" style="min-width: 60px;">
+                                    <div class="block-title">🖥️ UI</div>
+                                    <div class="block-description">Test</div>
+                                </div>
+                                <div class="flow-line"></div>
+                                <div class="flow-block process" style="min-width: 60px;">
+                                    <div class="block-title">🌐 Browser</div>
+                                    <div class="block-description">Check</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Production Ready -->
+                        <div class="flow-block end">
+                            <div class="block-title">🚀 Production</div>
+                            <div class="block-description">Audit Complete<br>Optimized</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-summary">
+                    <div class="summary-title">🎯 Key Outcomes:</div>
+                    <ul>
+                        <li>Successfully deployed contract on local network</li>
+                        <li>Integrated frontend with MetaMask connectivity</li>
+                        <li>Validated all contract functions through UI</li>
+                        <li>Established monitoring and maintenance procedures</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Donor Workflow -->
+            <div class="workflow-card" id="donor">
+                <div class="workflow-header">
+                    <div class="workflow-icon">👥</div>
+                    <div class="workflow-title">Donor (User) Workflow</div>
+                </div>
+                
+                <div class="workflow-diagram">
+                    <div class="flow-container">
+                        <!-- Start -->
+                        <div class="flow-block start">
+                            <div class="block-title">🌐 Browser</div>
+                            <div class="block-description">Connect<br>MetaMask</div>
+                        </div>
+                        
+                        <div class="flow-arrow"></div>
+
+                        <!-- Wallet Connection -->
+                        <div class="flow-block process">
+                            <div class="block-title">🔗 Wallet</div>
+                            <div class="block-description">Authorize<br>Network</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Donation Amount -->
+                        <div class="flow-block decision">
+                            <div class="block-title">� Amount</div>
+                            <div class="block-description">Enter ETH<br>Validate</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Transaction -->
+                        <div class="flow-block process">
+                            <div class="block-title">� Submit</div>
+                            <div class="block-description">Transaction<br>Gas Fee</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Blockchain Processing -->
+                        <div class="sub-flow">
+                            <div class="sub-flow-title">⛓️ Blockchain</div>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <div class="flow-block process" style="min-width: 60px;">
+                                    <div class="block-title">⏳ Mining</div>
+                                    <div class="block-description">Pending</div>
+                                </div>
+                                <div class="flow-line"></div>
+                                <div class="flow-block process" style="min-width: 60px;">
+                                    <div class="block-title">✅ Confirm</div>
+                                    <div class="block-description">Block</div>
+                                </div>
+                                <div class="flow-line"></div>
+                                <div class="flow-block process" style="min-width: 60px;">
+                                    <div class="block-title">📊 Update</div>
+                                    <div class="block-description">State</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Rewards Check -->
+                        <div class="parallel-container">
+                            <div class="merge-point"></div>
+                            <div class="branch-line"></div>
+                            <div class="parallel-row">
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🏅 Badge</div>
+                                    <div class="block-description">Check</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🎯 Milestone</div>
+                                    <div class="block-description">Update</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">👑 Rank</div>
+                                    <div class="block-description">Calculate</div>
+                                </div>
+                            </div>
+                            <div class="branch-line"></div>
+                            <div class="merge-point"></div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Success -->
+                        <div class="flow-block end">
+                            <div class="block-title">🎉 Success</div>
+                            <div class="block-description">Thank You<br>Receipt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-summary">
+                    <div class="summary-title">🎯 User Experience Highlights:</div>
+                    <ul>
+                        <li>Seamless MetaMask integration for Web3 interaction</li>
+                        <li>Real-time badge progression and achievement notifications</li>
+                        <li>Transparent leaderboard and milestone tracking</li>
+                        <li>Gamified experience encouraging continued participation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Admin Workflow -->
+            <div class="workflow-card" id="admin">
+                <div class="workflow-header">
+                    <div class="workflow-icon">👑</div>
+                    <div class="workflow-title">Contract Owner (Admin) Workflow</div>
+                </div>
+                
+                <div class="workflow-diagram">
+                    <div class="flow-container">
+                        <!-- Deploy -->
+                        <div class="flow-block start">
+                            <div class="block-title">👑 Deploy</div>
+                            <div class="block-description">Owner Deploy<br>Initialize<br>Permissions</div>
+                        </div>
+                        
+                        <div class="flow-arrow"></div>
+
+                        <!-- Monitoring -->
+                        <div class="parallel-container">
+                            <div class="merge-point"></div>
+                            <div class="branch-line"></div>
+                            <div class="parallel-row">
+                                <div class="flow-block parallel">
+                                    <div class="block-title">💰 Balances</div>
+                                    <div class="block-description">Total Donations<br>Donor Count</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">📊 Analytics</div>
+                                    <div class="block-description">Gas Usage<br>Performance</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🎯 Milestones</div>
+                                    <div class="block-description">Progress<br>Achievements</div>
+                                </div>
+                            </div>
+                            <div class="branch-line"></div>
+                            <div class="merge-point"></div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Research -->
+                        <div class="sub-flow">
+                            <div class="sub-flow-title">🔬 Research & Analytics</div>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div class="flow-block process" style="min-width: 100px;">
+                                    <div class="block-title">🧪 Benchmarks</div>
+                                    <div class="block-description">Performance<br>Gas Analysis</div>
+                                </div>
+                                <div class="flow-line"></div>
+                                <div class="flow-block process" style="min-width: 100px;">
+                                    <div class="block-title">📈 Reports</div>
+                                    <div class="block-description">Export Data<br>Analysis</div>
+                                </div>
+                                <div class="flow-line"></div>
+                                <div class="flow-block process" style="min-width: 100px;">
+                                    <div class="block-title">📚 Academic</div>
+                                    <div class="block-description">Papers<br>Publications</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Optimization -->
+                        <div class="flow-block decision">
+                            <div class="block-title">⚙️ Optimize</div>
+                            <div class="block-description">Review Performance<br>Identify Issues<br>Improvements</div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Maintenance -->
+                        <div class="parallel-container">
+                            <div class="merge-point"></div>
+                            <div class="branch-line"></div>
+                            <div class="parallel-row">
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🔧 Health</div>
+                                    <div class="block-description">System Checks<br>Monitor</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">💾 Backup</div>
+                                    <div class="block-description">Data Backup<br>Recovery</div>
+                                </div>
+                                <div class="flow-block parallel">
+                                    <div class="block-title">🔄 Updates</div>
+                                    <div class="block-description">Dependencies<br>Security</div>
+                                </div>
+                            </div>
+                            <div class="branch-line"></div>
+                            <div class="merge-point"></div>
+                        </div>
+
+                        <div class="flow-arrow"></div>
+
+                        <!-- Community -->
+                        <div class="flow-block end">
+                            <div class="block-title">🌟 Community</div>
+                            <div class="block-description">Open Source<br>Research<br>Knowledge Share</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-summary">
+                    <div class="summary-title">🎯 Administrative Capabilities:</div>
+                    <ul>
+                        <li>Comprehensive performance monitoring and analytics</li>
+                        <li>Research-grade data collection and export</li>
+                        <li>System optimization and maintenance procedures</li>
+                        <li>Academic research and publication support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complete Project Timeline -->
+        <div class="workflow-card" style="grid-column: 1 / -1; margin-top: 30px;">
+            <div class="workflow-header">
+                <div class="workflow-icon">📅</div>
+                <div class="workflow-title">Complete Project Lifecycle Timeline</div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-phase">PHASE 1</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Development (Week 1-2)</div>
+                        <div class="timeline-description">Project setup, smart contract development, basic testing, initial frontend</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">PHASE 2</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Enhancement (Week 3-4)</div>
+                        <div class="timeline-description">Gamification features, milestone system, leaderboard, comprehensive testing</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">PHASE 3</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Optimization (Week 5)</div>
+                        <div class="timeline-description">Gas optimization, performance benchmarking, security auditing, documentation</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">PHASE 4</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Research (Week 6)</div>
+                        <div class="timeline-description">Academic analysis, performance data collection, research report generation</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-phase">PHASE 5</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Deployment & Maintenance (Ongoing)</div>
+                        <div class="timeline-description">Production deployment, user onboarding, community engagement, continuous improvement</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workflow-summary">
+                <div class="summary-title">🏆 Project Achievements:</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div>
+                        <strong>✅ Technical Excellence:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>100% test coverage with 7/7 passing tests</li>
+                            <li>Gas-optimized smart contract</li>
+                            <li>Research-grade performance metrics</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>🎮 Innovation:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Gamified donation incentive system</li>
+                            <li>Real-time achievement tracking</li>
+                            <li>Community leaderboard functionality</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <strong>📊 Research Impact:</strong>
+                        <ul style="margin-top: 10px;">
+                            <li>Comprehensive performance analysis</li>
+                            <li>Academic publication-ready data</li>
+                            <li>Reproducible test benchmarks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🔗 Navigation</h3>
+            <a href="index.html" class="back-link">🏠 Main dApp</a>
+            <a href="index-enhanced.html" class="back-link">⚡ Enhanced Version</a>
+            <a href="consensus-comparison.html" class="back-link">🔍 Consensus Analysis</a>
+            <a href="research-results.html" class="back-link">📊 Research Results</a>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p>📅 Generated: <span id="currentDate"></span></p>
+                <p style="margin-top: 10px; opacity: 0.8;">
+                    🔬 Blockchain Donation System | Ethereum Smart Contract | Solidity ^0.8.19
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <a href="#development" class="nav-item">🏗️ Development</a>
+        <a href="#deployment" class="nav-item">🚀 Deployment</a>
+        <a href="#donor" class="nav-item">👥 User Flow</a>
+        <a href="#admin" class="nav-item">👑 Admin Flow</a>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-item').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add interactive effects
+        document.querySelectorAll('.workflow-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Console welcome message
+        console.log('🔄 Workflow Diagrams Page Loaded Successfully!');
+        console.log('📊 Visualizing comprehensive project workflows');
+        console.log('🎯 Navigate through different development phases');
+        
+        // Track workflow views (simple analytics)
+        const workflowViews = {
+            development: 0,
+            deployment: 0,
+            donor: 0,
+            admin: 0
+        };
+
+        // Intersection Observer for tracking views
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const workflowId = entry.target.id;
+                    if (workflowViews.hasOwnProperty(workflowId)) {
+                        workflowViews[workflowId]++;
+                        console.log(`📈 Viewed ${workflowId} workflow (${workflowViews[workflowId]} times)`);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe workflow cards
+        document.querySelectorAll('.workflow-card[id]').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

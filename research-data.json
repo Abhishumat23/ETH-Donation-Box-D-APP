@@ -1,0 +1,144 @@
+{
+  "deployment": {
+    "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "gasUsed": "1669479",
+    "gasPrice": "1875000000",
+    "blockNumber": 1,
+    "deploymentTime": "10.33",
+    "costETH": "0.003130273125"
+  },
+  "gasAnalysis": [
+    {
+      "scenario": "First-time Donor (0.05 ETH)",
+      "gasUsed": "122081",
+      "gasPrice": "1.777798285",
+      "costETH": "0.000217035392431085",
+      "badge": "None",
+      "totalDonated": "0.05"
+    },
+    {
+      "scenario": "Bronze Threshold (0.1 ETH)",
+      "gasUsed": "109830",
+      "gasPrice": "1.681364786",
+      "costETH": "0.00018466429444638",
+      "badge": "Bronze",
+      "totalDonated": "0.1"
+    },
+    {
+      "scenario": "Silver Threshold (0.5 ETH)",
+      "gasUsed": "109817",
+      "gasPrice": "1.596817807",
+      "costETH": "0.000175357741111319",
+      "badge": "Silver",
+      "totalDonated": "0.5"
+    },
+    {
+      "scenario": "Gold Threshold (1.0 ETH)",
+      "gasUsed": "134830",
+      "gasPrice": "1.522761754",
+      "costETH": "0.00020531396729182",
+      "badge": "Gold",
+      "totalDonated": "1.0"
+    },
+    {
+      "scenario": "Diamond Threshold (5.0 ETH)",
+      "gasUsed": "117706",
+      "gasPrice": "1.458003902",
+      "costETH": "0.000171615807288812",
+      "badge": "Diamond",
+      "totalDonated": "5.0"
+    },
+    {
+      "scenario": "Repeat Donor (0.2 ETH)",
+      "gasUsed": "65452",
+      "gasPrice": "1.401202663",
+      "costETH": "0.000091711516698676",
+      "badge": "Bronze",
+      "totalDonated": "0.25"
+    }
+  ],
+  "badgeSystem": [
+    {
+      "amount": "0.05",
+      "badge": "None",
+      "gasUsed": "87881",
+      "processingTime": "1.14"
+    },
+    {
+      "amount": "0.15",
+      "badge": "Bronze",
+      "gasUsed": "109830",
+      "processingTime": "1.01"
+    },
+    {
+      "amount": "0.6",
+      "badge": "Silver",
+      "gasUsed": "109817",
+      "processingTime": "2.19"
+    },
+    {
+      "amount": "1.2",
+      "badge": "Gold",
+      "gasUsed": "109793",
+      "processingTime": "1.16"
+    },
+    {
+      "amount": "6.0",
+      "badge": "Diamond",
+      "gasUsed": "117706",
+      "processingTime": "1.02"
+    }
+  ],
+  "milestones": {
+    "currentTotal": "14.85",
+    "milestoneIndex": "3",
+    "nextTarget": "25.0",
+    "progressPercent": "59.4"
+  },
+  "leaderboard": {
+    "avgQueryTime": "1.92",
+    "queryRange": "1.39-2.89",
+    "totalDonors": 5,
+    "topPerformers": [
+      {
+        "amount": "6.0",
+        "badge": "Diamond"
+      },
+      {
+        "amount": "5.0",
+        "badge": "Diamond"
+      },
+      {
+        "amount": "1.2",
+        "badge": "Gold"
+      }
+    ]
+  },
+  "scalability": [
+    {
+      "batchSize": 3,
+      "totalTime": 3,
+      "avgGas": 43507,
+      "throughput": "1000.00"
+    },
+    {
+      "batchSize": 5,
+      "totalTime": 4,
+      "avgGas": 46383,
+      "throughput": "1250.00"
+    },
+    {
+      "batchSize": 8,
+      "totalTime": 10,
+      "avgGas": 47436,
+      "throughput": "800.00"
+    }
+  ],
+  "storage": {
+    "activeDonors": "10",
+    "totalValue": "19.155",
+    "milestoneProgress": "3",
+    "estimatedSlots": 28,
+    "estimatedStorageCost": 560000
+  }
+}
